@@ -1,0 +1,16 @@
+# React
+node_modules
+dist
+.env
+
+# Java
+target
+*.class
+*.log
+
+# Editor
+.vscode
+.idea
+
+# OS
+.DS_Store
