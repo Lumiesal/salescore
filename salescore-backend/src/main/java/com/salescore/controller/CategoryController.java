@@ -1,6 +1,7 @@
 package com.salescore.controller;
 
-import com.salescore.entity.Category;
+import com.salescore.dto.CategoryDto;
+import com.salescore.dto.CategoryRequestDto;
 import com.salescore.service.CategoryService;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,27 +18,27 @@ public class CategoryController {
     }
 
     @GetMapping
-    public List<Category> getAllCategories() {
+    public List<CategoryDto> getAllCategories() {
         return categoryService.getAllCategories();
     }
 
     @GetMapping("/{id}")
-    public Category getCategoryById(@PathVariable Long id) {
+    public CategoryDto getCategoryById(@PathVariable Long id) {
         return categoryService.getCategoryById(id);
     }
 
     @PostMapping
-    public Category createCategory(@RequestBody Category category) {
-        return categoryService.createCategory(category);
+    public CategoryDto createCategory(@RequestBody CategoryRequestDto request) {
+        return categoryService.createCategory(request);
     }
 
     @PutMapping("/{id}")
-    public Category updateCategory(@PathVariable Long id, @RequestBody Category categoryData) {
-        return categoryService.updateCategory(id, categoryData);
+    public CategoryDto updateCategory(@PathVariable Long id, @RequestBody CategoryRequestDto request) {
+        return categoryService.updateCategory(id, request);
     }
 
     @PatchMapping("/{id}/deactivate")
-    public Category deactivateCategory(@PathVariable Long id) {
+    public CategoryDto deactivateCategory(@PathVariable Long id) {
         return categoryService.deactivateCategory(id);
     }
 }

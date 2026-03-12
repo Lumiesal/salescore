@@ -1,6 +1,9 @@
 package com.salescore.service;
 
+import com.salescore.dto.CategoryDto;
+import com.salescore.dto.CategoryRequestDto;
 import com.salescore.entity.Category;
+import com.salescore.mapper.CategoryMapper;
 import com.salescore.repository.CategoryRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -12,41 +15,59 @@ import java.util.List;
 public class CategoryService {
 
     private final CategoryRepository categoryRepository;
+    private final CategoryMapper categoryMapper;
 
-    public CategoryService(CategoryRepository categoryRepository) {
+    public CategoryService(CategoryRepository categoryRepository, CategoryMapper categoryMapper) {
         this.categoryRepository = categoryRepository;
+        this.categoryMapper = categoryMapper;
     }
 
-    public List<Category> getAllCategories() {
-        return categoryRepository.findAll();
+    public List<CategoryDto> getAllCategories() {
+        return categoryRepository.findAll()
+                .stream()
+                .map(categoryMapper::toDto)
+                .toList();
     }
 
-    public Category getCategoryById(Long id) {
-        return categoryRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Categoría no encontrada"));
-    }
-
-    public Category createCategory(Category category) {
-        return categoryRepository.save(category);
-    }
-
-    public Category updateCategory(Long id, Category categoryData) {
+    public CategoryDto getCategoryById(Long id) {
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Categoría no encontrada"));
 
-        category.setName(categoryData.getName());
-        category.setDescription(categoryData.getDescription());
-        category.setActive(categoryData.getActive());
-
-        return categoryRepository.save(category);
+        return categoryMapper.toDto(category);
     }
 
-    public Category deactivateCategory(Long id) {
+    public CategoryDto createCategory(CategoryRequestDto request) {
+        Category category = new Category();
+        category.setName(request.getName());
+        category.setDescription(request.getDescription());
+        category.setActive(request.getActive());
+
+        Category savedCategory = categoryRepository.save(category);
+
+        return categoryMapper.toDto(savedCategory);
+    }
+
+    public CategoryDto updateCategory(Long id, CategoryRequestDto request) {
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Categoría no encontrada"));
+
+        category.setName(request.getName());
+        category.setDescription(request.getDescription());
+        category.setActive(request.getActive());
+
+        Category updatedCategory = categoryRepository.save(category);
+
+        return categoryMapper.toDto(updatedCategory);
+    }
+
+    public CategoryDto deactivateCategory(Long id) {
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Categoría no encontrada"));
 
         category.setActive(false);
 
-        return categoryRepository.save(category);
+        Category updatedCategory = categoryRepository.save(category);
+
+        return categoryMapper.toDto(updatedCategory);
     }
 }

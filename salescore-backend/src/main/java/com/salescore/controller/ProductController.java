@@ -1,6 +1,7 @@
 package com.salescore.controller;
 
-import com.salescore.entity.Product;
+import com.salescore.dto.ProductDto;
+import com.salescore.dto.ProductRequestDto;
 import com.salescore.service.ProductService;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,27 +18,27 @@ public class ProductController {
     }
 
     @GetMapping
-    public List<Product> getAllProducts() {
+    public List<ProductDto> getAllProducts() {
         return productService.getAllProducts();
     }
 
     @GetMapping("/{id}")
-    public Product getProductById(@PathVariable Long id) {
+    public ProductDto getProductById(@PathVariable Long id) {
         return productService.getProductById(id);
     }
 
     @PostMapping
-    public Product createProduct(@RequestBody Product product) {
-        return productService.createProduct(product);
+    public ProductDto createProduct(@RequestBody ProductRequestDto request) {
+        return productService.createProduct(request);
     }
 
     @PutMapping("/{id}")
-    public Product updateProduct(@PathVariable Long id, @RequestBody Product productData) {
-        return productService.updateProduct(id, productData);
+    public ProductDto updateProduct(@PathVariable Long id, @RequestBody ProductRequestDto request) {
+        return productService.updateProduct(id, request);
     }
 
     @PatchMapping("/{id}/deactivate")
-    public Product deactivateProduct(@PathVariable Long id) {
+    public ProductDto deactivateProduct(@PathVariable Long id) {
         return productService.deactivateProduct(id);
     }
 }
