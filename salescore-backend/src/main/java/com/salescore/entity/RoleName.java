@@ -1,4 +1,7 @@
 package com.salescore.entity;
 
-public class RoleName {
+public enum RoleName {
+    ADMIN,
+    MANAGER,
+    SALES
 }

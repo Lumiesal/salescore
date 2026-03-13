@@ -1,4 +1,7 @@
 package com.salescore.entity;
 
-public class StockMovementType {
+public enum StockMovementType {
+    IN,
+    OUT,
+    ADJUST
 }
