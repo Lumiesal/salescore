@@ -1,8 +1,4 @@
-import axios from "axios";
-
-const api = axios.create({
-  baseURL: "http://localhost:8080/api",
-});
+import apiClient from "./apiClient";
 
 export type DashboardSummary = {
   totalCustomers: number;
@@ -13,6 +9,6 @@ export type DashboardSummary = {
 };
 
 export const getDashboardSummary = async (): Promise<DashboardSummary> => {
-  const response = await api.get<DashboardSummary>("/dashboard/summary");
+  const response = await apiClient.get<DashboardSummary>("/dashboard/summary");
   return response.data;
 };

@@ -1,8 +1,4 @@
-import axios from "axios";
-
-const api = axios.create({
-  baseURL: "http://localhost:8080/api",
-});
+import apiClient from "./apiClient";
 
 export type SaleItemRequest = {
   productId: number;
@@ -33,11 +29,11 @@ export type Sale = {
 };
 
 export const getSales = async (): Promise<Sale[]> => {
-  const response = await api.get<Sale[]>("/sales");
+  const response = await apiClient.get<Sale[]>("/sales");
   return response.data;
 };
 
 export const createSale = async (sale: SaleRequest): Promise<Sale> => {
-  const response = await api.post<Sale>("/sales", sale);
+  const response = await apiClient.post<Sale>("/sales", sale);
   return response.data;
 };

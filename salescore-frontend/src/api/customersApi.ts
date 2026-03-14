@@ -1,8 +1,4 @@
-import axios from "axios";
-
-const api = axios.create({
-  baseURL: "http://localhost:8080/api",
-});
+import apiClient from "./apiClient";
 
 export type Customer = {
   id: number;
@@ -22,13 +18,13 @@ export type CustomerRequest = {
 };
 
 export const getCustomers = async (): Promise<Customer[]> => {
-  const response = await api.get<Customer[]>("/customers");
+  const response = await apiClient.get<Customer[]>("/customers");
   return response.data;
 };
 
 export const createCustomer = async (
   customer: CustomerRequest
 ): Promise<Customer> => {
-  const response = await api.post<Customer>("/customers", customer);
+  const response = await apiClient.post<Customer>("/customers", customer);
   return response.data;
 };
