@@ -3,3 +3,5 @@ contraseña: postgres
 admin@salescore.com / Admin123*
 
 sales@salescore.com / Sales123*
+
+manager@salescore.com / Manager123*

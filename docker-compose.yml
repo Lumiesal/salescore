@@ -1,0 +1,39 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: salescore-postgres
+    environment:
+      POSTGRES_DB: salescore_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - salescore_postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: ./salescore-backend
+    container_name: salescore-backend
+    depends_on:
+      - postgres
+    environment:
+      DB_URL: jdbc:postgresql://postgres:5432/salescore_db
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres
+      JWT_SECRET: MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWY=
+      JWT_EXPIRATION_MS: 86400000
+    ports:
+      - "8080:8080"
+
+  frontend:
+    build:
+      context: ./salescore-frontend
+    container_name: salescore-frontend
+    depends_on:
+      - backend
+    ports:
+      - "5173:80"
+
+volumes:
+  salescore_postgres_data:

@@ -17,7 +17,7 @@ export default function AppLayout() {
 
   const isAdmin = user?.role === "ADMIN";
   const isManager = user?.role === "MANAGER";
-  const isSales = user?.role === "SALES";
+  /* const isSales = user?.role === "SALES"; */
 
   return (
     <div
